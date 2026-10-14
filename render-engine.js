@@ -23,10 +23,11 @@ function renderConcept(st){
       <textarea class="ourstext" oninput="saveOurs('${id}', this.value)" placeholder="Skriv jeres eget indhold her …">${esc(saved)}</textarea>
     </div>`;
   }
+  const myNotesHtml = typeof renderMyNotesSection==='function' ? renderMyNotesSection(id) : '';
   return `
     <div class="topbar"><button class="backbtn" onclick="closeConcept()">← Tilbage</button></div>
     <div class="modulehead"><h1 style="font-size:21px">${esc(c.title)}</h1></div>
-    <div class="panel">${summaryHtml}${tagsHtml}${modelHtml}<div class="prose">${defsHtml}</div>${oursHtml}</div>
+    <div class="panel">${summaryHtml}${tagsHtml}${modelHtml}<div class="prose">${defsHtml}</div>${oursHtml}${myNotesHtml}</div>
   `;
 }
 
@@ -62,6 +63,7 @@ function renderHome(){
         </button>
       </div>
     </div>
+    ${typeof renderWhiteboardHomeSection==='function' ? renderWhiteboardHomeSection() : ''}
   `;
 }
 function renderModule(key){
@@ -295,6 +297,7 @@ function render(){
     else if(state.screen==='topicTab') app.innerHTML = renderTopicTab(state.tkey);
     else app.innerHTML = renderTab(state.mkey, state.tkey);
   }catch(e){ app.innerHTML = `<div class="empty">Der opstod en fejl i visningen.</div>`; }
+  if(typeof wbUpdateFabVisibility==='function') wbUpdateFabVisibility();
 }
 function goHome(){ state={screen:'home', mkey:null, tkey:null, openModel:null, openGlobalModel:null}; render(); }
 function openModule(key){ state={screen:'module',mkey:key,tkey:null,openModel:null}; render(); }

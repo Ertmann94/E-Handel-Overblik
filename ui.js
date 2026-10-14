@@ -108,7 +108,7 @@ const THEMES = [
     dark:{bg:'#241331', fg:'#f3e7f0', fgDim:'#b79bc4'}, light:{bg:'#faf1f6', fg:'#2e1526', fgDim:'#8f6a82'}},
   {key:'espresso', label:'Espresso Terracotta', accent:'#d66a4c', accentRgb:'214,106,76',
     dark:{bg:'#231913', fg:'#f2e8dd', fgDim:'#b89d85'}, light:{bg:'#fbf2ea', fg:'#2c1c10', fgDim:'#8e715a'}},
-  {key:'denim', label:'Denim Coral', accent:'#ef6f61', accentRgb:'239,111,97',
+  {key:'denim', label:'Dania Rød', accent:'#cb142a', accentRgb:'203,20,42',
     dark:{bg:'#152233', fg:'#eef2f7', fgDim:'#8fa5c2'}, light:{bg:'#eef3fa', fg:'#15233a', fgDim:'#64799c'}},
 ];
 let currentThemeKey = 'midnight';
@@ -183,16 +183,12 @@ function renderSiteHead(){
   const nextTxt = next ? `${fmtDM(next.date)} — ${esc(next.topic)}` : 'Ingen flere undervisningsgange';
   const swatches = THEMES.map(t=>`<button class="theme-swatch" data-theme="${t.key}" title="${esc(t.label)}" style="--sw-bg:${t.dark.bg};--sw-accent:${t.accent}" onclick="applyTheme('${t.key}')"></button>`).join('');
   const pct = semesterPct();
-  const ring = progressRing(pct, 100, {size:52, stroke:6, color:'--accent'});
+  const ring = progressRing(pct, 100, {size:96, stroke:9, color:'--accent'});
   return `
     <div class="sitehead-row">
       <div class="sitehead-titlewrap">
         <div class="sitehead-logo"><img src="dania-logo.png" alt="Dania Erhvervsakademi"></div>
         <h1 class="sitehead-title">E-handel 1. semester – 2026</h1>
-        <div class="sitehead-progress">
-          <div class="sitehead-ringbadge">${ring}</div>
-          <div class="sitehead-progress-text"><strong>${pct}%</strong>af semestret gået</div>
-        </div>
       </div>
       <div class="sitehead-controls">
         <button id="modetoggle" class="modetoggle" title="Skift mellem lys og mørk tilstand" onclick="toggleMode()">🌙</button>
@@ -205,9 +201,13 @@ function renderSiteHead(){
         <div class="sitehead-infoitem"><i></i><div><strong>Sidste dag for teknisk Shopify-hjælp</strong><span>21. oktober (sidste undervisning i E-handelsteknologier)</span></div></div>
         <div class="sitehead-infoitem"><i></i><div><strong>Brugertest / tænke-højt-test</strong><span>26.-30. oktober (uge 44 — obligatorisk eksamensbilag)</span></div></div>
       </div>
+      <div class="sitehead-progress">
+        <div class="sitehead-ringbadge">${ring}</div>
+        <div class="sitehead-progress-text"><strong>${pct}%</strong>af semestret gået</div>
+      </div>
       <div class="sitehead-deadlines">
-        <button class="deadlinepill" onclick="goHeaderDeadline('opgaver',2)"><span>🌐 Hjemmeside (webshop) klar</span><span class="ddate">før 13/11</span></button>
-        <button class="deadlinepill" onclick="goHeaderDeadline('opgaver',5)"><span>📝 Skriftlig rapport afleveres</span><span class="ddate">13/11 kl. 12</span></button>
+        <button class="deadlinepill" onclick="goHeaderDeadline('opgaver',2)"><span>🌐 Hjemmeside klar</span><span class="ddate">før 13/11</span></button>
+        <button class="deadlinepill" onclick="goHeaderDeadline('opgaver',5)"><span>📝 Skriftlig rapport</span><span class="ddate">13/11 kl. 12</span></button>
         <button class="deadlinepill" onclick="goHeaderDeadline('opgaver',6)"><span>🤓 Mundtlig eksamen</span><span class="ddate">30/11–11/12</span></button>
       </div>
     </div>
