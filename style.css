@@ -231,17 +231,17 @@ mark.mark-link[data-tip]:hover::after,mark.mark-link[data-tip]:focus-visible::af
 .deadlinepill .ddate{font-weight:700;color:var(--fg);flex:none;background:rgba(var(--accent-rgb),.22);padding:2px 7px;border-radius:999px;font-size:10.5px}
 
 /* ---- whiteboard: personlige noter + filer ---- */
-.whiteboard-section{margin-top:22px;background:var(--card);border:1px solid var(--card-border);border-radius:18px;padding:22px 20px;box-shadow:var(--shadow)}
-.whiteboard-head h2{margin:0 0 4px;font-family:"Manrope",sans-serif;font-size:19px;color:var(--ink)}
-.whiteboard-hint{margin:0 0 16px;font-family:"Manrope",sans-serif;font-size:13px;color:var(--ink-dim);line-height:1.5;max-width:70ch}
+.whiteboard-section{margin-top:22px}
+.whiteboard-head h2{margin:0 0 4px;font-family:"Manrope",sans-serif;font-size:19px;color:var(--fg)}
+.whiteboard-hint{margin:0 0 16px;font-family:"Manrope",sans-serif;font-size:13px;color:var(--fg-dim);line-height:1.5;max-width:70ch}
 .whiteboard-toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .whiteboard-toolbar button{font-family:"Manrope",sans-serif;font-size:13px;font-weight:700;border-radius:999px;padding:8px 14px;cursor:pointer;border:1px solid var(--card-border);background:var(--bg-alt);color:var(--ink)}
 .whiteboard-toolbar button:hover{border-color:var(--accent)}
 .wb-upload-btn{background:var(--accent)!important;color:var(--accent-fg)!important;border-color:var(--accent)!important;margin-left:auto}
 .wb-error{background:var(--tag-hand-bg);color:var(--tag-hand);font-family:"Manrope",sans-serif;font-size:13px;font-weight:600;padding:10px 14px;border-radius:10px;margin-bottom:14px}
 .wb-success{background:var(--tag-free-bg);color:var(--tag-free);font-family:"Manrope",sans-serif;font-size:13px;font-weight:600;padding:10px 14px;border-radius:10px;margin-bottom:14px}
-.whiteboard-dropzone{border:2px dashed var(--card-border);border-radius:14px;padding:16px;transition:border-color .15s ease,background .15s ease}
-.whiteboard-dropzone.dragover{border-color:var(--accent);background:rgba(var(--accent-rgb),.08)}
+.whiteboard-dropzone{border:1px solid rgba(0,0,0,.08);border-radius:10px;padding:16px;background-color:#ffffff;background-image:repeating-linear-gradient(0deg,rgba(60,110,170,.16) 0 1px,transparent 1px 26px),repeating-linear-gradient(90deg,rgba(60,110,170,.16) 0 1px,transparent 1px 26px);box-shadow:0 6px 18px rgba(0,0,0,.25);transition:border-color .15s ease,background-color .15s ease}
+.whiteboard-dropzone.dragover{border-color:var(--accent);background-color:#fbfdff}
 .whiteboard-board{display:flex;flex-wrap:wrap;gap:18px;min-height:80px}
 .wb-empty{font-family:"Manrope",sans-serif;color:var(--ink-dim);font-size:13.5px;padding:24px 10px;text-align:center;width:100%}
 
