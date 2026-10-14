@@ -12,7 +12,8 @@ function renderConcept(st){
     const mo = mod && mod.modeller && mod.modeller[meta.modelRef.i];
     if(mo) modelHtml = `<figure class="concept-figure">${mo.svg}<figcaption>${esc(mo.name)}</figcaption></figure>`;
   }
-  const defsHtml = c.entries.map(e=>`<p>${esc(e.desc)}</p>`).join('');
+  const defsHtml = CONCEPT_LONG[id] ? linkify(CONCEPT_LONG[id]) : c.entries.map(e=>`<p>${esc(e.desc)}</p>`).join('');
+  const summaryHtml = CONCEPT_SUMMARY[id] ? `<div class="quickanswer"><span class="quickanswer-label">Kort svar til eksamen</span>${linkify(CONCEPT_SUMMARY[id])}</div>` : '';
   let oursHtml = '';
   if(meta.ours){
     let saved=''; try{ saved = localStorage.getItem('ours:'+id) || ''; }catch(e){}
@@ -25,7 +26,7 @@ function renderConcept(st){
   return `
     <div class="topbar"><button class="backbtn" onclick="closeConcept()">← Tilbage</button></div>
     <div class="modulehead"><h1 style="font-size:21px">${esc(c.title)}</h1></div>
-    <div class="panel">${tagsHtml}${modelHtml}<div class="prose">${defsHtml}</div>${oursHtml}</div>
+    <div class="panel">${summaryHtml}${tagsHtml}${modelHtml}<div class="prose">${defsHtml}</div>${oursHtml}</div>
   `;
 }
 
@@ -70,7 +71,7 @@ function renderModule(key){
     <p>${esc(t.hint)}</p>
   </button>`).join('');
   return `
-    <div class="topbar"><button class="backbtn" onclick="goHome()">← Alle stoftyper</button></div>
+    <div class="topbar"><button class="backbtn" onclick="goHome()">← Main menu</button></div>
     <div class="modulehead">
       <div><h1>${esc(m.name)}</h1><div class="meta">${esc(m.ects)} · ${esc(m.status)}</div></div>
     </div>
@@ -203,7 +204,7 @@ function renderTopicTab(tkey){
     `).join('');
   }
   return `
-    <div class="topbar"><button class="backbtn" onclick="goHome()">← Stoftyper</button><span class="crumbs">${esc(tdef.label)}</span></div>
+    <div class="topbar"><button class="backbtn" onclick="goHome()">← Main menu</button><span class="crumbs">${esc(tdef.label)}</span></div>
     <div class="modulehead">
       <h1 style="font-size:20px">${esc(tdef.label)} — hele semestret</h1>
     </div>
@@ -231,7 +232,7 @@ function renderWebProjectHome(){
     </div>`;
   }).join('');
   return `
-    <div class="topbar"><button class="backbtn" onclick="goHome()">← Stoftyper</button></div>
+    <div class="topbar"><button class="backbtn" onclick="goHome()">← Main menu</button></div>
     <div class="modulehead">
       <div><h1>${esc(mod.name)}</h1><div class="meta">${esc(mod.ects)} · ${esc(mod.status)}</div></div>
     </div>
