@@ -3,7 +3,7 @@ function diagSeptagram(){
   const p=['Afsender','Modtager','Omstændig-heder','Sprog','Emne','Genre','Medie'];
   const pts=p.map((t,i)=>{ const a=-Math.PI/2+i*2*Math.PI/7; return [cx+R*Math.cos(a), cy+R*Math.sin(a)]; });
   let s=`<polygon points="${pts.map(q=>q.join(',')).join(' ')}" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>`;
-  s+=circleLabel(cx,cy,66,'Retorisk situation','',"var(--bg)",{tfs:12,maxChars:10});
+  s+=circleLabel(cx,cy,66,'Retorisk situation','',"var(--card)",{tfs:12,maxChars:10});
   p.forEach((t,i)=>{ s+=circleLabel(pts[i][0],pts[i][1],42,t,'',"var(--m3-bg)",{tfs:10.5,maxChars:9}); });
   return svgWrap(`0 0 ${W} ${H}`,s);
 }
@@ -44,7 +44,7 @@ function diagOmnichannel(){
     const labels=['Web','Butik','App','Social'].slice(0,n);
     labels.forEach((l,i)=>{ g+=box(x,10+i*48,90,38,l,'',"var(--m3-bg)",{tfs:10,maxChars:8}); });
     if(connected==='backend'){
-      g+=box(x+110,80,90,56,'Fælles','backend',"var(--bg)",{tfs:10,maxChars:9});
+      g+=box(x+110,80,90,56,'Fælles','backend',"var(--card)",{tfs:10,maxChars:9});
       labels.forEach((l,i)=>{ g+=arrowH(x+90,29+i*48,x+110); });
     } else if(connected==='some'){
       g+=arrowPath(`M ${x+90} 29 L ${x+90} 77`);

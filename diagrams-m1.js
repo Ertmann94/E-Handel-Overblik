@@ -22,10 +22,10 @@ function diagFiveForces(){
   const W=460,H=380;
   let s='';
   s+=box(140,150,180,80,'Konkurrence-intensitet','blandt eksisterende udbydere',"var(--m1-bg)",{tfs:12.5});
-  s+=box(140,10,180,70,'Nye udbydere','trussel / indgangsbarrierer',"var(--bg)",{tfs:11.5});
-  s+=box(140,300,180,70,'Substitutter','trussel fra erstatningsprodukter',"var(--bg)",{tfs:11.5});
-  s+=box(10,150,120,80,'Leverandører','forhandlingsstyrke',"var(--bg)",{tfs:11});
-  s+=box(330,150,120,80,'Kunder','forhandlingsstyrke',"var(--bg)",{tfs:11});
+  s+=box(140,10,180,70,'Nye udbydere','trussel / indgangsbarrierer',"var(--card)",{tfs:11.5});
+  s+=box(140,300,180,70,'Substitutter','trussel fra erstatningsprodukter',"var(--card)",{tfs:11.5});
+  s+=box(10,150,120,80,'Leverandører','forhandlingsstyrke',"var(--card)",{tfs:11});
+  s+=box(330,150,120,80,'Kunder','forhandlingsstyrke',"var(--card)",{tfs:11});
   s+=arrowV(230,80,150);
   s+=arrowV(230,300,230);
   s+=arrowH(130,190,140);
@@ -39,7 +39,7 @@ function diagBMC(){
   s+=box(2,2,92,296,'Nøgle-partnere','leverandører, alliancer',"var(--m1-bg)",{tfs:11,maxChars:11});
   s+=box(96,2,92,145,'Nøgle-aktiviteter','',"var(--m1-bg)",{tfs:11,maxChars:11});
   s+=box(96,149,92,149,'Nøgle-ressourcer','',"var(--m1-bg)",{tfs:11,maxChars:11});
-  s+=box(190,2,100,296,'Værditilbud','(value proposition)',"var(--bg)",{tfs:12.5,maxChars:12});
+  s+=box(190,2,100,296,'Værditilbud','(value proposition)',"var(--card)",{tfs:12.5,maxChars:12});
   s+=box(292,2,92,145,'Kunde-relationer','',"var(--m1-bg)",{tfs:11,maxChars:11});
   s+=box(292,149,92,149,'Kanaler','',"var(--m1-bg)",{tfs:11,maxChars:11});
   s+=box(386,2,92,296,'Kunde-segmenter','',"var(--m1-bg)",{tfs:11,maxChars:10});
@@ -50,14 +50,14 @@ function diagVPC(){
   let s='';
   s+=textBlock(120,28,'Kundeprofil',{fs:13,weight:700,maxChars:14});
   s+=`<circle cx="120" cy="165" r="100" style="fill:var(--m1-bg)" stroke="currentColor" stroke-width="1.3"/>`;
-  s+=circleLabel(120,115,34,'Jobs','',"var(--bg)",{tfs:9.5});
-  s+=circleLabel(80,195,34,'Pains','',"var(--bg)",{tfs:9.5});
-  s+=circleLabel(160,195,34,'Gains','',"var(--bg)",{tfs:9.5});
+  s+=circleLabel(120,115,34,'Jobs','',"var(--card)",{tfs:9.5});
+  s+=circleLabel(80,195,34,'Pains','',"var(--card)",{tfs:9.5});
+  s+=circleLabel(160,195,34,'Gains','',"var(--card)",{tfs:9.5});
   s+=textBlock(375,28,'Værdikort',{fs:13,weight:700,maxChars:14});
   s+=box(270,45,210,205,'','',"var(--m1-bg)",{r:14});
-  s+=box(285,65,80,60,'Produkter & services','',"var(--bg)",{tfs:9,maxChars:10});
-  s+=box(370,65,95,60,'Pain relievers','',"var(--bg)",{tfs:9,maxChars:11});
-  s+=box(327,135,95,60,'Gain creators','',"var(--bg)",{tfs:9,maxChars:11});
+  s+=box(285,65,80,60,'Produkter & services','',"var(--card)",{tfs:9,maxChars:10});
+  s+=box(370,65,95,60,'Pain relievers','',"var(--card)",{tfs:9,maxChars:11});
+  s+=box(327,135,95,60,'Gain creators','',"var(--card)",{tfs:9,maxChars:11});
   s+=arrowH(230,165,270);
   return svgWrap(`0 0 ${W} ${H}`,s);
 }
@@ -65,7 +65,7 @@ function diagDoughnut(){
   const W=340,H=380,cx=170,cy=190;
   let s='';
   s+=`<circle cx="${cx}" cy="${cy}" r="160" style="fill:var(--m1-bg)" stroke="currentColor" stroke-width="1.3"/>`;
-  s+=`<circle cx="${cx}" cy="${cy}" r="110" style="fill:var(--bg)" stroke="currentColor" stroke-width="1.3"/>`;
+  s+=`<circle cx="${cx}" cy="${cy}" r="110" style="fill:var(--card)" stroke="currentColor" stroke-width="1.3"/>`;
   s+=`<circle cx="${cx}" cy="${cy}" r="55" style="fill:var(--m1-bg)" stroke="currentColor" stroke-width="1.3"/>`;
   s+=textBlock(cx,cy+2,'Socialt',{fs:11,weight:700,maxChars:10});
   s+=textBlock(cx,cy+16,'fundament',{fs:11,weight:700,maxChars:10});
@@ -90,10 +90,10 @@ function diagDTFlow(){
 function diagBM4(){
   const W=420,H=320;
   let s='';
-  s+=box(10,10,170,80,'Profit formula','revenue, cost, margin, resource velocity',"var(--bg)",{tfs:10.5,maxChars:16});
-  s+=box(240,10,170,80,'Key resources','mennesker, teknologi, brand',"var(--bg)",{tfs:10.5,maxChars:16});
+  s+=box(10,10,170,80,'Profit formula','revenue, cost, margin, resource velocity',"var(--card)",{tfs:10.5,maxChars:16});
+  s+=box(240,10,170,80,'Key resources','mennesker, teknologi, brand',"var(--card)",{tfs:10.5,maxChars:16});
   s+=box(110,120,200,80,'Customer Value Proposition','jobbet der skal udføres — kernen alle 4 spiller sammen om',"var(--m1-bg)",{tfs:12,maxChars:20,smaxChars:26});
-  s+=box(125,250,170,60,'Key processes','regler, metrics, normer',"var(--bg)",{tfs:10.5,maxChars:16});
+  s+=box(125,250,170,60,'Key processes','regler, metrics, normer',"var(--card)",{tfs:10.5,maxChars:16});
   s+=arrowPath('M 95 90 L 170 120');
   s+=arrowPath('M 325 90 L 250 120');
   s+=arrowPath('M 210 250 L 210 200');

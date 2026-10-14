@@ -4,7 +4,7 @@ function diagQuality(){
   s+=boxL(10+lw,10,cw-6,40,'Validitet','',"var(--m5-bg)",{tfs:12.5});
   s+=boxL(10+lw+cw,10,cw-6,40,'Reliabilitet','',"var(--m5-bg)",{tfs:12.5});
   const rows=[['Objektive','typisk kvantitativ · positivisme',['Kausalitet, målings-, intern, objektivitets-, ekstern og prædikativ validitet','Repeterbarhed og reproducerbarhed']],['Subjektive','typisk kvalitativ · hermeneutik / soc. konstr.',['Credibilitet og transferabilitet','Confirmabilitet og dependabilitet']]];
-  rows.forEach((r,i)=>{ const y=58+i*(rh+8); s+=boxL(10,y,lw-6,rh,r[0],r[1],"var(--m5-bg)",{tfs:12,maxChars:12,smaxChars:15}); r[2].forEach((t,j)=>{ s+=boxL(10+lw+j*cw,y,cw-6,rh,t,'',"var(--bg)",{tfs:10,maxChars:24}); }); });
+  rows.forEach((r,i)=>{ const y=58+i*(rh+8); s+=boxL(10,y,lw-6,rh,r[0],r[1],"var(--m5-bg)",{tfs:12,maxChars:12,smaxChars:15}); r[2].forEach((t,j)=>{ s+=boxL(10+lw+j*cw,y,cw-6,rh,t,'',"var(--card)",{tfs:10,maxChars:24}); }); });
   return svgWrap(`0 0 ${W} ${H}`,s);
 }
 function diagParadigm(){
@@ -22,7 +22,7 @@ function diagParadigm(){
     const y=y0+56+ri*rowH;
     s+=textBlock(10+labelW-10,y+rowH/2-6+4,r[0],{fs:10.5,weight:700,anchor:'end',opacity:.75,maxChars:11});
     r[1].forEach((txt,ci)=>{
-      s+=box(x0+ci*colW,y,colW-4,rowH-6,txt,'',"var(--bg)",{tfs:9,maxChars:13});
+      s+=box(x0+ci*colW,y,colW-4,rowH-6,txt,'',"var(--card)",{tfs:9,maxChars:13});
     });
   });
   return svgWrap(`0 0 ${W} ${H}`,s);
@@ -83,15 +83,15 @@ function diagHermCircle(){
   s+=arrowPath(`M ${cx+r-10} ${cy} A ${r-10} ${r-10} 0 1 1 ${cx-r+10} ${cy-1}`);
   s+=circleLabel(cx,cy-r,40,'Helhed','',"var(--m5-bg)",{tfs:12});
   s+=circleLabel(cx,cy+r,40,'Dele','',"var(--m5-bg)",{tfs:12});
-  s+=circleLabel(cx,cy,56,'Fortolkning','',"var(--bg)",{tfs:10.5,maxChars:11});
+  s+=circleLabel(cx,cy,56,'Fortolkning','',"var(--card)",{tfs:10.5,maxChars:11});
   return svgWrap(`0 0 ${W} ${H}`,s);
 }
 function diagDesignTypes(){
   const W=460,H=260;
   let s='';
   s+=box(165,10,130,50,'Undersøgelses-design','',"var(--m5-bg)",{tfs:11,maxChars:13});
-  s+=box(20,120,180,50,'Statisk','survey, case, observation',"var(--bg)",{tfs:11,maxChars:13});
-  s+=box(260,120,180,50,'Dynamisk','tidsrække, eksperiment',"var(--bg)",{tfs:11,maxChars:13});
+  s+=box(20,120,180,50,'Statisk','survey, case, observation',"var(--card)",{tfs:11,maxChars:13});
+  s+=box(260,120,180,50,'Dynamisk','tidsrække, eksperiment',"var(--card)",{tfs:11,maxChars:13});
   s+=arrowPath(`M 200 60 L 110 120`);
   s+=arrowPath(`M 260 60 L 350 120`);
   s+=textBlock(230,210,'metodetriangulering: kombinér flere design/datakilder',{fs:9.5,opacity:.65,maxChars:40});

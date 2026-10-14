@@ -24,7 +24,7 @@ function progressRing(done,total,opts={}){
 
 // ---------- SVG building blocks (currentColor, viewBox-scaled) ----------
 function svgWrap(viewBox, inner){
-  return `<svg viewBox="${viewBox}" role="img" aria-label="diagram" xmlns="http://www.w3.org/2000/svg" style="color:var(--fg)">
+  return `<svg viewBox="${viewBox}" role="img" aria-label="diagram" xmlns="http://www.w3.org/2000/svg" style="color:var(--ink)">
     <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
     </marker></defs>

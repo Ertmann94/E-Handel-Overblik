@@ -30,82 +30,51 @@ function renderConcept(st){
 }
 
 // ---------- engine ----------
-let state = {mode:'subject', screen:'home', mkey:null, tkey:null, openModel:null};
+let state = {screen:'home', mkey:null, tkey:null, openModel:null};
 
 // Lille modul-tag: viser hvilket fag et element hører til, og hopper til
 // det fags hovedmenu (modul-skærmen) når man trykker på det.
 function modTag(mkey){
   const mod = MODULES.find(x=>x.key===mkey);
   if(!mod) return '';
-  return `<button class="modtag" style="color:var(--${mod.color});border-color:var(--${mod.color});background:var(--${mod.color}-bg)" onclick="goToModuleHome('${mkey}')">${mod.icon} ${esc(mod.name)}</button>`;
+  return `<button class="modtag" style="color:var(--${mod.color});border-color:var(--${mod.color});background:var(--${mod.color}-bg)" onclick="goToModuleHome('${mkey}')">${esc(mod.name)}</button>`;
 }
 function goToModuleHome(mkey){
   const mod = MODULES.find(x=>x.key===mkey);
   if(mod && mod.custom==='webproject'){ openWebProject(); return; }
-  state = {mode:'subject', screen:'module', mkey, tkey:null, openModel:null}; render();
-}
-function modeToggle(active){
-  return `<div class="modetoggle">
-    <button class="modebtn${active==='subject'?' active':''}" onclick="goHome()">📚 Efter fagmodul</button>
-    <button class="modebtn${active==='topic'?' active':''}" onclick="goTopicHome()">🧩 Efter stoftype</button>
-  </div>`;
+  state = {screen:'module', mkey, tkey:null, openModel:null}; render();
 }
 
+// ---------- start-skærmen: kun "efter stoftype" — store, centrerede knapper ----------
 function renderHome(){
-  const tiles = MODULES.map(m=>{
-    if(m.locked){
-      return `<button class="tile locked" disabled aria-disabled="true">
-        <div class="badge" style="--tile-bg:var(--bg);--tile-accent:var(--locked)">${m.icon}</div>
-        <h3>${esc(m.name)}</h3>
-        <span class="lockchip">🔒 ${esc(m.status)}</span>
-      </button>`;
-    }
-    const openFn = m.custom==='webproject' ? 'openWebProject()' : `openModule('${m.key}')`;
-    const glowClass = m.custom==='webproject' ? ' tile-glow' : '';
-    return `<button class="tile${glowClass}" style="--tile-bg:var(--${m.color}-bg);--tile-accent:var(--${m.color})" onclick="${openFn}">
-      <div class="badge">${m.icon}</div>
-      <h3>${esc(m.name)}</h3>
-      <div class="meta"><span>${esc(m.ects)}</span><span>·</span><span>${esc(m.status)}</span></div>
-    </button>`;
-  }).join('');
-  return `
-    ${modeToggle('subject')}
-    <div class="hero">
-      <h1>E-Handel — 1. semester</h1>
-      <p>Fem fagmoduler fra læseplanen, Hjemmesiden, hvor I bygger selve webshoppen i praksis, og Eksamen med krav, formalia og datoer. Hele semestret er høstet fra Moodle (opdateret 13. oktober). Vælg et modul for at se opsummering, teorier, fagbegreber, modeller, opgaver og links.</p>
-    </div>
-    <div class="gridhome">${tiles}</div>
-  `;
-}
-function renderTopicHome(){
-  const tiles = TABS.map(t=>`<button class="tile" style="--tile-bg:var(--bg-alt);--tile-accent:var(--accent)" onclick="openTopicTab('${t.key}')">
-    <div class="badge">${t.icon}</div>
+  const tiles = TABS.map(t=>`<button class="tile" onclick="openTopicTab('${t.key}')">
     <h3>${esc(t.label)}</h3>
-    <div class="meta"><span>${esc(t.hint)}</span></div>
+    <p class="tile-hint">${esc(t.hint)}</p>
   </button>`).join('');
   return `
-    ${modeToggle('topic')}
-    <div class="hero">
-      <h1>E-Handel — efter stoftype</h1>
-      <p>Samme kategorier som under hvert fag, men samlet på tværs af hele semestret. Hvert element viser hvilke(t) fag det hører til — tryk på et fag for at komme til dets hovedmenu.</p>
+    <div class="homewrap">
+      <div class="gridhome">
+        ${tiles}
+        <button class="tile tile-wide tile-cta tile-glow" onclick="openWebProject()">
+          <h3>Hjemmesiden</h3>
+          <p class="tile-hint">Byg og tjek jeres rigtige webshop, skridt for skridt.</p>
+        </button>
+      </div>
     </div>
-    <div class="gridhome">${tiles}</div>
   `;
 }
 function renderModule(key){
   const m = MODULES.find(x=>x.key===key);
-  const subs = TABS.map(t=>`<button class="subtile" style="--tile-accent:var(--${m.color})" onclick="openTab('${m.key}','${t.key}')">
-    <span class="icon">${t.icon}</span>
+  const subs = TABS.map(t=>`<button class="subtile" onclick="openTab('${m.key}','${t.key}')">
     <h4>${t.label}</h4>
     <p>${esc(t.hint)}</p>
   </button>`).join('');
   return `
-    <div class="topbar"><button class="backbtn" onclick="goHome()">← Alle fag</button></div>
+    <div class="topbar"><button class="backbtn" onclick="goHome()">← Alle stoftyper</button></div>
     <div class="modulehead">
-      <div class="badge" style="background:var(--${m.color}-bg);color:var(--${m.color})">${m.icon}</div>
       <div><h1>${esc(m.name)}</h1><div class="meta">${esc(m.ects)} · ${esc(m.status)}</div></div>
     </div>
-    ${m.flag?`<div class="flagbox">⚠️ ${esc(m.flag)}</div>`:''}
+    ${m.flag?`<div class="flagbox">${esc(m.flag)}</div>`:''}
     <div class="gridsub">${subs}</div>
   `;
 }
@@ -116,16 +85,23 @@ function modelDetail(mo,idx){
     <button class="closedetail" onclick="toggleModel(${idx})">Luk model</button>
   </div>`;
 }
-// Bygger selve indholdet for ét fag + én kategori. Genbruges både af den
-// normale per-fag visning (renderTab) og af "efter stoftype"-visningen
-// (renderTopicTab), så de to tilstande altid viser identisk indhold.
+// Bygger selve indholdet for ét fag + én kategori. Genbruges både af
+// renderTab (per-fag visning nået via et fags hovedmenu) og af
+// renderTopicTab ("efter stoftype"-visningen), så de to altid viser
+// identisk indhold.
 function renderTabBody(m, tkey){
-  if(tkey==='opsummering'||tkey==='teorier'){
+  if(tkey==='opsummering'){
     return `<div class="legend">
       <span><i style="background:var(--term-bg)"></i> fagbegreb</span>
-      ${tkey==='opsummering'?'<span><i style="background:var(--concept-bg)"></i> teori / model</span>':''}
+      <span><i style="background:var(--concept-bg)"></i> teori / model</span>
       <span>· klik på et highlightet ord for at læse mere</span>
     </div><div class="prose">${linkify(m[tkey])}</div>`;
+  } else if(tkey==='teorier'){
+    const paras = m[tkey].match(/<p>[\s\S]*?<\/p>/g) || [m[tkey]];
+    return `<div class="legend">
+      <span><i style="background:var(--term-bg)"></i> fagbegreb</span>
+      <span>· klik på et highlightet ord for at læse mere</span>
+    </div><div class="theorylist">${paras.map(p=>`<div class="theoryitem">${linkify(p)}</div>`).join('')}</div>`;
   } else if(tkey==='fagbegreber'){
     return `<dl class="deflist">${m.fagbegreber.map(([t,d])=>{
       const cid = conceptId(t);
@@ -177,7 +153,6 @@ function renderTab(mkey,tkey){
   return `
     <div class="topbar"><button class="backbtn" onclick="openModule('${mkey}')">← ${esc(m.name)}</button><span class="crumbs">${esc(m.name)} / ${esc(tdef.label)}</span></div>
     <div class="modulehead">
-      <div class="badge" style="background:var(--${m.color}-bg);color:var(--${m.color});width:38px;height:38px;font-size:17px">${tdef.icon}</div>
       <h1 style="font-size:20px">${esc(tdef.label)}</h1>
     </div>
     <div class="panel">${body}</div>
@@ -228,9 +203,8 @@ function renderTopicTab(tkey){
     `).join('');
   }
   return `
-    <div class="topbar"><button class="backbtn" onclick="goTopicHome()">← Stoftyper</button><span class="crumbs">Efter stoftype / ${esc(tdef.label)}</span></div>
+    <div class="topbar"><button class="backbtn" onclick="goHome()">← Stoftyper</button><span class="crumbs">${esc(tdef.label)}</span></div>
     <div class="modulehead">
-      <div class="badge" style="background:var(--bg-alt);color:var(--fg);width:38px;height:38px;font-size:17px">${tdef.icon}</div>
       <h1 style="font-size:20px">${esc(tdef.label)} — hele semestret</h1>
     </div>
     ${content}
@@ -257,12 +231,11 @@ function renderWebProjectHome(){
     </div>`;
   }).join('');
   return `
-    <div class="topbar"><button class="backbtn" onclick="goHome()">← Alle fag</button></div>
+    <div class="topbar"><button class="backbtn" onclick="goHome()">← Stoftyper</button></div>
     <div class="modulehead">
-      <div class="badge" style="background:var(--m6-bg);color:var(--m6)">${mod.icon}</div>
       <div><h1>${esc(mod.name)}</h1><div class="meta">${esc(mod.ects)} · ${esc(mod.status)}</div></div>
     </div>
-    ${mod.flag?`<div class="flagbox">📋 ${esc(mod.flag)} <button class="modtag" style="color:var(--m7);border-color:var(--m7);background:var(--m7-bg);margin:8px 0 0" onclick="openModule('m7')">🎓 Gå til Eksamen</button></div>`:''}
+    ${mod.flag?`<div class="flagbox">${esc(mod.flag)} <button class="modtag" style="color:var(--m7);border-color:var(--m7);background:var(--m7-bg);margin:8px 0 0" onclick="openModule('m7')">Gå til Eksamen</button></div>`:''}
     <div class="webprogress-row">
       ${ring}
       <div class="webprogress-text"><strong>${doneCount} af ${steps.length}</strong> skridt klaret<br>Kryds et skridt af, når det er lavet på jeres rigtige hjemmeside. Tryk på et skridt for at se en fuld, trin-for-trin Shopify-guide samt de teorier/modeller det bygger på.</div>
@@ -306,8 +279,8 @@ function renderWebProjectStep(idx){
     </div>
   `;
 }
-function openWebProject(){ state = {mode:'subject', screen:'webproject', mkey:'m6', tkey:null, openModel:null}; render(); }
-function openWebStep(i){ state = {mode:'subject', screen:'webprojectStep', mkey:'m6', stepIdx:i}; render(); }
+function openWebProject(){ state = {screen:'webproject', mkey:'m6', tkey:null, openModel:null}; render(); }
+function openWebStep(i){ state = {screen:'webprojectStep', mkey:'m6', stepIdx:i}; render(); }
 
 function render(){
   const app = document.getElementById('app');
@@ -318,20 +291,13 @@ function render(){
     else if(state.screen==='webproject') app.innerHTML = renderWebProjectHome();
     else if(state.screen==='webprojectStep') app.innerHTML = renderWebProjectStep(state.stepIdx);
     else if(state.screen==='concept') app.innerHTML = renderConcept(state);
-    else if(state.screen==='topicHome') app.innerHTML = renderTopicHome();
     else if(state.screen==='topicTab') app.innerHTML = renderTopicTab(state.tkey);
     else app.innerHTML = renderTab(state.mkey, state.tkey);
   }catch(e){ app.innerHTML = `<div class="empty">Der opstod en fejl i visningen.</div>`; }
 }
-function goHome(){ state={mode:'subject', screen:'home',mkey:null,tkey:null,openModel:null}; render(); }
-function openModule(key){ state={mode:'subject', screen:'module',mkey:key,tkey:null,openModel:null}; render(); }
-function openTab(mkey,tkey){ state={mode:'subject', screen:'tab',mkey,tkey,openModel:null}; render(); }
+function goHome(){ state={screen:'home', mkey:null, tkey:null, openModel:null, openGlobalModel:null}; render(); }
+function openModule(key){ state={screen:'module',mkey:key,tkey:null,openModel:null}; render(); }
+function openTab(mkey,tkey){ state={screen:'tab',mkey,tkey,openModel:null}; render(); }
 function toggleModel(i){ state.openModel = (state.openModel===i)?null:i; render(); }
-function goTopicHome(){ state={mode:'topic', screen:'topicHome', tkey:null, openModel:null, openGlobalModel:null}; render(); }
-function openTopicTab(tkey){ state={mode:'topic', screen:'topicTab', tkey, openModel:null, openGlobalModel:null}; render(); }
+function openTopicTab(tkey){ state={screen:'topicTab', tkey, openModel:null, openGlobalModel:null}; render(); }
 function toggleGlobalModel(key){ state.openGlobalModel = (state.openGlobalModel===key)?null:key; render(); }
-
-// ---------- lys/mørk/automatisk tilstand ----------
-// Siden følger som udgangspunkt systemets indstilling (ingen data-theme sat),
-// men brugeren kan tvinge lys eller mørk tilstand via knappen nederst til højre.
-// Valget gemmes i denne browser og overlever genindlæsning af artifactet.

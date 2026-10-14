@@ -1,32 +1,3 @@
-function getThemePref(){ try{ return localStorage.getItem('theme-pref') || 'auto'; }catch(e){ return 'auto'; } }
-function setThemePref(p){ try{ localStorage.setItem('theme-pref', p); }catch(e){} applyTheme(p); renderThemeBtn(); }
-function applyTheme(p){
-  if(p==='light') document.documentElement.setAttribute('data-theme','light');
-  else if(p==='dark') document.documentElement.setAttribute('data-theme','dark');
-  else document.documentElement.removeAttribute('data-theme');
-}
-function cycleTheme(){
-  const cur = getThemePref();
-  setThemePref(cur==='auto' ? 'light' : cur==='light' ? 'dark' : 'auto');
-}
-function renderThemeBtn(){
-  const p = getThemePref();
-  const label = p==='auto' ? '🖥️ Auto' : p==='light' ? '☀️ Lys' : '🌙 Mørk';
-  let btn = document.getElementById('themebtn');
-  if(!btn){
-    btn = document.createElement('button');
-    btn.id = 'themebtn';
-    btn.className = 'themebtn';
-    btn.type = 'button';
-    btn.onclick = cycleTheme;
-    document.body.appendChild(btn);
-  }
-  btn.textContent = label;
-  btn.title = 'Skift mellem lys, mørk og automatisk (system) tilstand';
-}
-applyTheme(getThemePref());
-renderThemeBtn();
-
 // ---------- global søgning (floating knap + overlay, uafhængig af render()) ----------
 function scrollToSearchTarget(id){
   let el;
@@ -62,7 +33,7 @@ function renderSearchResults(query){
     group.forEach(r=>{
       const i = SEARCH_INDEX.indexOf(r);
       htm += `<button class="searchresult" onclick="goSearchResult(${i})">
-        <span class="srtitle">${r.icon} ${esc(r.title)}</span>
+        <span class="srtitle">${esc(r.title)}</span>
         <span class="srmeta">${esc(r.meta)}</span>
         ${r.snippet?`<span class="srsnippet">${esc(r.snippet)}</span>`:''}
       </button>`;
@@ -98,9 +69,8 @@ function initSearchUI(){
   overlay.innerHTML = `
     <div class="searchpanel" onclick="event.stopPropagation()">
       <div class="searchbar">
-        <span>🔍</span>
         <input id="searchinput" type="text" placeholder="Søg i begreber, teorier, modeller, opgaver og skridt …" oninput="onSearchInput(this.value)" onkeydown="if(event.key==='Escape')closeSearch()">
-        <button class="searchclose" type="button" onclick="closeSearch()" aria-label="Luk søgning">✕</button>
+        <button class="searchclose" type="button" onclick="closeSearch()" aria-label="Luk søgning">×</button>
       </div>
       <div id="searchresults" class="searchresults"></div>
     </div>
@@ -111,7 +81,7 @@ function initSearchUI(){
   btn.id = 'searchbtn';
   btn.className = 'searchbtn';
   btn.type = 'button';
-  btn.textContent = '🔍 Søg';
+  btn.textContent = 'Søg';
   btn.onclick = openSearch;
   document.body.appendChild(btn);
 

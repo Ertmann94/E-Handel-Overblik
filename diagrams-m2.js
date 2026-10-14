@@ -9,7 +9,7 @@ function diagNettjek(){
 function diagGDPR7(){
   const W=500,H=440,cx=250,cy=220,R=170;
   const p=['Ansvarlighed','Formåls-begrænsning','Data-minimering','Lovlighed, rimelighed, gennemsigtighed','Rigtighed','Integritet & fortrolighed','Opbevarings-begrænsning'];
-  let s=circleLabel(cx,cy,58,'GDPR','7 principper',"var(--bg)",{tfs:14});
+  let s=circleLabel(cx,cy,58,'GDPR','7 principper',"var(--card)",{tfs:14});
   p.forEach((t,i)=>{ const a=-Math.PI/2+i*2*Math.PI/7; const x=cx+R*Math.cos(a), y=cy+R*Math.sin(a); s+=boxL(x-66,y-30,132,60,t,'',"var(--m2-bg)",{tfs:10,maxChars:18}); });
   return svgWrap(`0 0 ${W} ${H}`,s);
 }
@@ -38,7 +38,7 @@ function diagPESO(){
 function diagBSC(){
   const W=420,H=340,cx=210,cy=170;
   let s='';
-  s+=circleLabel(cx,cy,62,'Vision &','strategi',"var(--bg)",{tfs:12});
+  s+=circleLabel(cx,cy,62,'Vision &','strategi',"var(--card)",{tfs:12});
   s+=box(cx-80,10,160,70,'Finansielt','ejernes perspektiv',"var(--m2-bg)",{tfs:12,maxChars:14});
   s+=box(cx-80,260,160,70,'Lærings & vækst','udvikling, kompetencer',"var(--m2-bg)",{tfs:12,maxChars:14});
   s+=box(10,cy-38,160,76,'Kunder','kundeperspektiv',"var(--m2-bg)",{tfs:12,maxChars:14});
@@ -59,7 +59,7 @@ function diagSTP(){
 function diagValueChain(){
   const W=575,H=260;
   let s='';
-  s+=box(10,10,535,50,'Støtteaktiviteter: infrastruktur · HR · teknologiudvikling · indkøb','',"var(--bg)",{tfs:11,maxChars:60});
+  s+=box(10,10,535,50,'Støtteaktiviteter: infrastruktur · HR · teknologiudvikling · indkøb','',"var(--card)",{tfs:11,maxChars:60});
   const prim=['Indgående logistik','Produktion','Udgående logistik','Marketing & salg','Service'];
   const bw=88,gap=6;
   prim.forEach((t,i)=>{ s+=box(10+i*(bw+gap),100,bw,90,t,'',"var(--m2-bg)",{tfs:10,maxChars:11}); });
@@ -73,8 +73,8 @@ function diag4Corner(){
   let s='';
   s+=box(140,10,140,60,'Kunde / kortholder','',"var(--m2-bg)",{tfs:12,maxChars:14});
   s+=box(140,310,140,60,'Forretning / sælger','',"var(--m2-bg)",{tfs:12,maxChars:14});
-  s+=box(10,160,140,60,'PSP + Kortindløser','(Acquirer)',"var(--bg)",{tfs:11,maxChars:13});
-  s+=box(270,160,140,60,'Kortudsteder','(Issuer)',"var(--bg)",{tfs:11,maxChars:13});
+  s+=box(10,160,140,60,'PSP + Kortindløser','(Acquirer)',"var(--card)",{tfs:11,maxChars:13});
+  s+=box(270,160,140,60,'Kortudsteder','(Issuer)',"var(--card)",{tfs:11,maxChars:13});
   s+=circleLabel(210,190,46,'Scheme Owner','Visa/MC/Dankort',"var(--m2-bg)",{tfs:10.5,maxChars:12});
   s+=arrowV(210,70,160); s+=arrowV(210,220,310);
   s+=arrowH(150,190,164); s+=arrowH(270,190,256);
