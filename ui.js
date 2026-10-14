@@ -41,60 +41,73 @@ function renderSearchResults(query){
   });
   results.innerHTML = htm;
 }
-function onSearchInput(v){ renderSearchResults(v); }
+function onSearchInput(v){
+  renderSearchResults(v);
+  updateSearchResultsVisibility();
+}
 function goSearchResult(i){
   const r = SEARCH_INDEX[i];
   if(!r) return;
-  closeSearch();
+  clearSearch();
   r.go();
 }
-function openSearch(){
-  const ov = document.getElementById('searchoverlay');
-  if(ov) ov.hidden = false;
+function clearSearch(){
   const inp = document.getElementById('searchinput');
-  if(inp){ inp.value=''; inp.focus(); }
+  if(inp) inp.value = '';
   renderSearchResults('');
+  hideSearchResults();
 }
-function closeSearch(){
-  const ov = document.getElementById('searchoverlay');
-  if(ov) ov.hidden = true;
+function showSearchResults(){
+  const results = document.getElementById('searchresults');
+  if(results) results.hidden = false;
 }
+function hideSearchResults(){
+  const results = document.getElementById('searchresults');
+  if(results) results.hidden = true;
+}
+function updateSearchResultsVisibility(){
+  const inp = document.getElementById('searchinput');
+  if(inp && (document.activeElement===inp || inp.value.trim())) showSearchResults();
+  else hideSearchResults();
+}
+// Søgningen er en altid-åben boks øverst på siden, lige over semester-kortet,
+// så den ligger samme sted på startsiden og alle undersider (den indsættes
+// uden for #app og overlever derfor render()-kald ved sideskift).
 function initSearchUI(){
-  if(document.getElementById('searchoverlay')) return;
-  const overlay = document.createElement('div');
-  overlay.id = 'searchoverlay';
-  overlay.className = 'searchoverlay';
-  overlay.hidden = true;
-  overlay.onclick = function(e){ if(e.target===overlay) closeSearch(); };
-  overlay.innerHTML = `
-    <div class="searchpanel" onclick="event.stopPropagation()">
-      <div class="searchbar">
-        <input id="searchinput" type="text" placeholder="Søg i begreber, teorier, modeller, opgaver og skridt …" oninput="onSearchInput(this.value)" onkeydown="if(event.key==='Escape')closeSearch()">
-        <button class="searchclose" type="button" onclick="closeSearch()" aria-label="Luk søgning">×</button>
-      </div>
-      <div id="searchresults" class="searchresults"></div>
+  if(document.getElementById('searchbar-top')) return;
+  const bar = document.createElement('div');
+  bar.id = 'searchbar-top';
+  bar.className = 'searchbar-top';
+  bar.innerHTML = `
+    <div class="searchbar-top-input">
+      <span class="searchicon" aria-hidden="true">🔍</span>
+      <input id="searchinput" type="text" placeholder="Søg i begreber, teorier, modeller, opgaver, skridt …" autocomplete="off"
+        oninput="onSearchInput(this.value)"
+        onfocus="updateSearchResultsVisibility()"
+        onkeydown="if(event.key==='Escape'){clearSearch(); this.blur();}">
+      <button class="searchclear" type="button" onclick="clearSearch()" aria-label="Ryd søgning" title="Ryd søgning">×</button>
     </div>
+    <div id="searchresults" class="searchresults searchresults-float" hidden></div>
   `;
-  document.body.appendChild(overlay);
+  const sitehead = document.getElementById('sitehead');
+  const app = document.getElementById('app');
+  if(sitehead && sitehead.parentNode) sitehead.parentNode.insertBefore(bar, sitehead);
+  else if(app && app.parentNode) app.parentNode.insertBefore(bar, app);
+  else document.body.appendChild(bar);
+  renderSearchResults('');
 
-  const btn = document.createElement('button');
-  btn.id = 'searchbtn';
-  btn.className = 'searchbtn';
-  btn.type = 'button';
-  btn.textContent = 'Søg';
-  btn.onclick = openSearch;
-  document.body.appendChild(btn);
-
+  document.addEventListener('click', function(e){
+    if(!bar.contains(e.target)) hideSearchResults();
+  });
   document.addEventListener('keydown', function(e){
     const tag = document.activeElement && document.activeElement.tagName;
     if(e.key==='/' && tag!=='INPUT' && tag!=='TEXTAREA'){
-      e.preventDefault(); openSearch();
-    } else if(e.key==='Escape'){
-      closeSearch();
+      e.preventDefault();
+      const inp = document.getElementById('searchinput');
+      if(inp) inp.focus();
     }
   });
 }
-initSearchUI();
 
 // ---------- farvetemaer (baggrund, tekst, highlight — kort/creme-elementer forbliver uændrede) ----------
 // Hver tema har et mørkt og et lyst sæt af bg/fg/fg-dim; accenten er den samme i begge, da
@@ -223,5 +236,6 @@ function initSiteHead(){
   initTheme();
 }
 initSiteHead();
+initSearchUI();
 
 render();

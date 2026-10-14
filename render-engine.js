@@ -113,9 +113,12 @@ function renderTabBody(m, tkey){
       return `<div class="defitem${clickable?' clickable':''}"${attrs}><dt>${esc(t)}${clickable?'<span class="chevron">Læs mere →</span>':''}</dt><dd>${esc(d)}</dd></div>`;
     }).join('')}</dl>`;
   } else if(tkey==='modeller'){
-    let body = `<div class="modelgrid">${m.modeller.map((mo,i)=>`<button class="modelcard" data-search-id="model-${m.key}-${i}" onclick="toggleModel(${i})"><div class="mini">${mo.svg}</div><h4>${esc(mo.name)}</h4></button>`).join('')}</div>`;
-    if(state.openModel!=null && m.modeller[state.openModel]) body += modelDetail(m.modeller[state.openModel], state.openModel);
-    return body;
+    const cards = m.modeller.map((mo,i)=>{
+      let card = `<button class="modelcard" data-search-id="model-${m.key}-${i}" onclick="toggleModel(${i})"><div class="mini">${mo.svg}</div><h4>${esc(mo.name)}</h4></button>`;
+      if(state.openModel===i) card += modelDetail(mo, i);
+      return card;
+    }).join('');
+    return `<div class="modelgrid">${cards}</div>`;
   } else if(tkey==='opgaver'){
     const tagLabel={hand:'Aflevering',must:'Skal gøres',free:'Frivillig'};
     const handIdx = m.opgaver.map((o,i)=>i).filter(i=>m.opgaver[i].type==='hand');
@@ -188,15 +191,16 @@ function renderTopicTab(tkey){
     const flat = [];
     unlocked.forEach(m=>(m.modeller||[]).forEach((mo,i)=>flat.push({m,mo,key:m.key+':'+i})));
     const openKey = state.openGlobalModel;
-    const openEntry = openKey ? flat.find(f=>f.key===openKey) : null;
-    content = `<div class="panel">
-      <div class="modelgrid">${flat.map(f=>`
+    const cards = flat.map(f=>{
+      let card = `
         <div class="modelcard-wrap">
           <button class="modelcard" onclick="toggleGlobalModel('${f.key}')"><div class="mini">${f.mo.svg}</div><h4>${esc(f.mo.name)}</h4></button>
           <div class="modtags">${modTag(f.m.key)}</div>
-        </div>`).join('')}</div>
-      ${openEntry ? modelDetailGlobal(openEntry) : ''}
-    </div>`;
+        </div>`;
+      if(openKey===f.key) card += modelDetailGlobal(f);
+      return card;
+    }).join('');
+    content = `<div class="panel"><div class="modelgrid">${cards}</div></div>`;
   } else {
     content = unlocked.map(m=>`
       <div class="topicsection">
