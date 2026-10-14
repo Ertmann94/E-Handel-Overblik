@@ -203,14 +203,24 @@ const SEARCH_INDEX = buildSearchIndex();
 
 // Gør hvert highlightet ord/udtryk i Opsummering/Teorier klikbart, hvis det
 // matcher et registreret begreb — ellers forbliver det en almindelig markering.
+// Viser samtidig den korte definition som hover-tooltip (data-tip), så man kan
+// se den hurtige forklaring uden at klikke ind på den fulde, uddybende side.
 function linkify(html){
   return html.replace(/<mark class="(term|concept)">([^<]*)<\/mark>/g, (full, cls, text)=>{
     const id = conceptId(text);
     if(CONCEPT_DEFS[id]){
-      return `<mark class="${cls} mark-link" tabindex="0" onclick="openConcept('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openConcept('${id}')}">${text}</mark>`;
+      const tip = CONCEPT_DEFS[id].entries[0] ? CONCEPT_DEFS[id].entries[0].desc : '';
+      return `<mark class="${cls} mark-link" tabindex="0" data-tip="${esc(tip)}" onclick="openConcept('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openConcept('${id}')}">${text}</mark>`;
     }
     return full;
   });
 }
+// Lange, eksamensklare uddybninger pr. begreb (vises på selve begrebssiden).
+// Udfyldes i concept-long-mX.js-filerne; begreber uden en lang uddybning
+// falder tilbage til de korte definitioner fra fagbegreb-listerne.
+const CONCEPT_LONG = {};
+// Kort "svar til eksamen" (1-4 sætninger) der vises øverst på begrebssiden,
+// over den lange uddybning — udfyldes i concept-summary-mX.js-filerne.
+const CONCEPT_SUMMARY = {};
 function openConcept(id){ state = {screen:'concept', id, back: state}; render(); }
 function closeConcept(){ state = state.back || {screen:'home',mkey:null,tkey:null,openModel:null}; render(); }
