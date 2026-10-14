@@ -31,6 +31,27 @@ DATA.m7 = {
     {date:'30/11-11/12', type:'hand', title:'Mundtlig eksamen (online, 30 min.)', desc:'Plan og link kun i Wiseflow (først efter aflevering, med forbehold for ændringer). Vær i lobbyen senest 30 min. før. Hav billed-ID klar, sid med ryggen mod en lukket dør i et rum med én dør, vis rundt i lokalet (også under bordet), og fjern unødvendige elektroniske apparater. Øv præsentationen så den holder tiden.'},
     {date:'4/1-5/2 2027', type:'must', title:'Reeksamen — kun ved behov', desc:'2. forsøg: Wiseflow åbner 4/1 kl. 12, aflevering senest 8/1 kl. 12, eksamen 4.-5/2 2027.\n3. forsøg: deltagelse 15/2-19/2 kl. 9, eksamen 8.-9/3 2027.'},
   ],
+  reportRequirements: h`
+    <h3 class="manual-head">Omfang og opbygning</h3>
+    <p>Det skriftlige produkt er en opsummering af et <mark class="concept">feasibility study</mark> på <strong>2-3 normalsider</strong> — det vil sige <strong>4.800-7.200 anslag inkl. mellemrum</strong>, og der er ingen bagatelgrænse. Fodnoter, figurer, tabeller og billedtekster tæller med i anslagene (billeder tæller 1 anslag hver); forside, indholdsfortegnelse, kildeliste og bilag tæller ikke med. Tekst og tabeller må ikke konverteres til billeder for at omgå optællingen.</p>
+    <p>Dokumentet skal indeholde, i denne rækkefølge: forside, indholdsfortegnelse, indledning (forretningsmodel, value proposition, bæredygtighed og koncept), videnskabsteori og metode (paradigme og undersøgelsesdesign), feasibility study (mindst tænke-højt-test og budget), konklusion, litteraturliste efter Harvard Referencing System, og bilag.</p>
+    <h3 class="manual-head">Forsiden skal indeholde</h3>
+    <p>Titel, forfatternavn, opgavetype/fag, vejleder/underviser, uddannelsesinstitution, afleveringsdato, samt link til webshoppen inkl. brugernavn og kode til både front- og backend — linket skal virke fra aflevering og frem til efter den mundtlige prøve — og antal anslag.</p>
+    <h3 class="manual-head">Kildehenvisning</h3>
+    <p><mark class="term">Harvard Referencing System</mark> skal bruges konsekvent — både som kildehenvisninger inde i teksten og som en samlet litteraturliste bagest, opstillet efter Harvard-standarden. Guiden findes i "Bibel til uddannelsen" under Generel information på Moodle.</p>
+    <h3 class="manual-head">To obligatoriske bilag</h3>
+    <p><strong>Bilag 1 — Etablerings- og driftsbudget for år 1:</strong> bygger videre på budgetteringen fra Digital forretningsforståelse (afleveret 28/9).</p>
+    <p><strong>Bilag 2 — Tænke-højt-test:</strong> dokumentation for testen udført med 3 personer der ikke går på studiet og som du ikke kender på forhånd — inkl. resultater og før-/efter-screenshots af de ændringer testen førte til.</p>
+    <h3 class="manual-head">Aflevering</h3>
+    <p>Ét samlet dokument afleveres i Wiseflow senest <strong>13/11 kl. 12</strong>.</p>`,
+  reportRejectionReasons: [
+    'Antal anslag ligger uden for 4.800-7.200',
+    'Harvard-referencer mangler i teksten eller i litteraturlisten',
+    'Links i dokumentet virker ikke (få en udenforstående til at teste dem)',
+    'Forsiden mangler en eller flere af de påkrævede oplysninger',
+    'Der afleveres mere end ét samlet dokument i Wiseflow',
+    'Der er plagiat',
+  ],
   links: [
     {url:'https://eadania.mrooms.net/pluginfile.php/764788/course/section/98315/Eksamensopgave%201.%20semester%202026-2028%20%283%29.pdf', title:'Eksamensbeskrivelse 1. semester 2026-2028', desc:'14 sider af Louise Krogh Balle (1/9 2026): krav, feasibility-proces, læringsmål (bilag 1) og formalia (bilag 2). Læs bilag 2 grundigt.'},
     {url:'https://eadania.mrooms.net/course/section.php?id=98315', title:'Moodle: Eksamen (9/11-11/12)', desc:'Tidsplan, huskeliste og reeksamensdatoer.'},

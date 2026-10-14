@@ -136,8 +136,8 @@ function renderTabBody(m, tkey){
     <div class="tasklist">${m.opgaver.map((o,i)=>{
       const id=m.key+':opg:'+i, done=isChecked(id);
       return `
-      <div class="task${done?' done':''}" data-search-id="task-${m.key}-${i}">
-        <label class="taskcheck"><input type="checkbox" ${done?'checked':''} onchange="toggleChecked('${id}')" aria-label="Markér '${esc(o.title)}' som klaret"></label>
+      <div class="task${done?' done':''}" data-search-id="task-${m.key}-${i}" onclick="openTaskDetail('${m.key}',${i})" role="button" tabindex="0" onkeydown="if(event.key==='Enter'){openTaskDetail('${m.key}',${i})}">
+        <label class="taskcheck" onclick="event.stopPropagation()"><input type="checkbox" ${done?'checked':''} onchange="toggleChecked('${id}')" aria-label="Markér '${esc(o.title)}' som klaret"></label>
         <div class="date">${esc(o.date)}</div>
         <div class="body"><div class="title">${esc(o.title)}</div><div class="desc">${esc(o.desc)}</div></div>
         <span class="tag ${o.type}">${tagLabel[o.type]}</span>
@@ -164,6 +164,53 @@ function renderTab(mkey,tkey){
     <div class="panel">${body}</div>
   `;
 }
+// ---------- én opgaves egen side (nået ved at klikke en opgave i Opgaver-listen) ----------
+function renderTaskDetail(mkey, idx){
+  const m = MODULES.find(x=>x.key===mkey);
+  const o = m && m.opgaver && m.opgaver[idx];
+  if(!o) return `<div class="topbar"><button class="backbtn" onclick="closeTaskDetail()">← Tilbage</button></div><div class="empty">Opgaven blev ikke fundet.</div>`;
+  const tagLabel = {hand:'Aflevering',must:'Skal gøres',free:'Frivillig'};
+  const id = m.key+':opg:'+idx;
+  const done = isChecked(id);
+  return `
+    <div class="topbar"><button class="backbtn" onclick="closeTaskDetail()">← Tilbage</button><span class="crumbs">${esc(m.name)} / Opgaver</span></div>
+    <div class="modulehead">
+      <div><h1 style="font-size:20px">${esc(o.title)}</h1><div class="meta">${esc(m.name)} · ${esc(o.date)}</div></div>
+    </div>
+    <div class="panel">
+      <div class="tasklegend"><span class="tag ${o.type}">${tagLabel[o.type]}</span></div>
+      <label class="stepdonecheck">
+        <input type="checkbox" ${done?'checked':''} onchange="toggleChecked('${id}')">
+        <span>Markér denne opgave som klaret</span>
+      </label>
+      <div class="prose" style="white-space:pre-line">${esc(o.desc)}</div>
+    </div>
+  `;
+}
+function openTaskDetail(mkey, idx){ state = {screen:'taskDetail', mkey, idx, back: state}; render(); }
+function closeTaskDetail(){ state = state.back || {screen:'home', mkey:null, tkey:null, openModel:null}; render(); }
+
+// ---------- "Skriftlig rapport": samlet side med alle formalia og krav ----------
+function renderReportRequirements(){
+  const mod = DATA.m7;
+  const reasons = mod.reportRejectionReasons || [];
+  return `
+    <div class="topbar"><button class="backbtn" onclick="closeReportRequirements()">← Tilbage</button></div>
+    <div class="modulehead">
+      <div><h1 style="font-size:20px">Skriftlig rapport — formalia og krav</h1><div class="meta">Aflevering 13/11 kl. 12 · Wiseflow</div></div>
+    </div>
+    <div class="panel">
+      <div class="prose">${linkify(mod.reportRequirements)}</div>
+      <div class="warnbox">
+        <h3>⚠️ Afvises automatisk (= et eksamensforsøg brugt), hvis:</h3>
+        <ul>${reasons.map(r=>`<li>${esc(r)}</li>`).join('')}</ul>
+      </div>
+    </div>
+  `;
+}
+function openReportRequirements(){ state = {screen:'reportRequirements', back: state}; render(); }
+function closeReportRequirements(){ state = state.back || {screen:'home', mkey:null, tkey:null, openModel:null}; render(); }
+
 function modelDetailGlobal(f){
   return `<div class="modeldetail open">
     <figure>${f.mo.svg}<figcaption>${esc(f.mo.name)}</figcaption></figure>
@@ -299,6 +346,8 @@ function render(){
     else if(state.screen==='webprojectStep') app.innerHTML = renderWebProjectStep(state.stepIdx);
     else if(state.screen==='concept') app.innerHTML = renderConcept(state);
     else if(state.screen==='topicTab') app.innerHTML = renderTopicTab(state.tkey);
+    else if(state.screen==='taskDetail') app.innerHTML = renderTaskDetail(state.mkey, state.idx);
+    else if(state.screen==='reportRequirements') app.innerHTML = renderReportRequirements();
     else app.innerHTML = renderTab(state.mkey, state.tkey);
   }catch(e){ app.innerHTML = `<div class="empty">Der opstod en fejl i visningen.</div>`; }
   if(typeof wbUpdateFabVisibility==='function') wbUpdateFabVisibility();

@@ -239,6 +239,12 @@ function wbRenderFileCard(item){
 function wbDragOver(e){ e.preventDefault(); e.currentTarget.classList.add('dragover'); }
 function wbDragLeave(e){ e.currentTarget.classList.remove('dragover'); }
 function wbDrop(e){ e.preventDefault(); e.currentTarget.classList.remove('dragover'); wbHandleFiles(e.dataTransfer.files); }
+// Klik et ledigt sted på selve tavlen (det ternede papir) opretter en ny note —
+// kun når klikket rammer tavlen/zonen selv, ikke en note, knap eller fil ovenpå.
+function wbBoardClick(e){
+  if(e.target !== e.currentTarget) return;
+  wbNewNote();
+}
 
 function wbRenderBoard(){
   const drafts = wbDrafts();
@@ -251,9 +257,9 @@ function wbRenderBoard(){
     '</div>'+
     (wbErrorMsg ? '<div class="wb-error" id="wberror">'+esc(wbErrorMsg)+'</div>' : '')+
     (wbSuccessMsg ? '<div class="wb-success">'+esc(wbSuccessMsg)+'</div>' : '')+
-    '<div class="whiteboard-dropzone" id="wbdropzone" ondragover="wbDragOver(event)" ondragleave="wbDragLeave(event)" ondrop="wbDrop(event)">'+
-      '<div class="whiteboard-board">'+
-        (cards || '<div class="wb-empty">Ingen noter endnu i dag — klik "+ Ny note", eller træk en fil herind.</div>')+
+    '<div class="whiteboard-dropzone" id="wbdropzone" ondragover="wbDragOver(event)" ondragleave="wbDragLeave(event)" ondrop="wbDrop(event)" onclick="wbBoardClick(event)">'+
+      '<div class="whiteboard-board" onclick="wbBoardClick(event)">'+
+        (cards || '<div class="wb-empty" onclick="wbNewNote()">Klik et sted på det ternede papir for at tilføje en note, eller træk en fil herind.</div>')+
       '</div>'+
     '</div>';
 }

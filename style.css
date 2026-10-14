@@ -85,7 +85,7 @@ mark.term,mark.concept{background:none;color:inherit;font-size:inherit;font-styl
 .modeldetail .desc{font-size:15px;line-height:1.7;max-width:62ch}
 .closedetail{font-family:"Manrope",sans-serif;font-size:12.5px;color:var(--ink-dim);background:none;border:none;cursor:pointer;padding:0;margin-top:14px;text-decoration:underline}
 .tasklist{display:flex;flex-direction:column;gap:10px}
-.task{display:flex;gap:12px;padding:14px;border:1px solid var(--card-border);border-radius:12px;background:var(--bg-alt);align-items:flex-start;transition:border-color .12s ease,box-shadow .12s ease}
+.task{display:flex;gap:12px;padding:14px;border:1px solid var(--card-border);border-radius:12px;background:var(--bg-alt);align-items:flex-start;cursor:pointer;transition:border-color .12s ease,box-shadow .12s ease}
 .task:hover{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 0 20px 4px rgba(var(--accent-rgb),.3)}
 .task .date{font-family:"Manrope",sans-serif;font-weight:700;font-size:13px;min-width:76px;color:var(--ink-dim)}
 .task .body{flex:1;min-width:0}
@@ -105,6 +105,9 @@ mark.term,mark.concept{background:none;color:inherit;font-size:inherit;font-styl
 .linkitem .nolink{font-family:"Manrope",sans-serif;font-weight:400;font-size:11.5px;color:var(--ink-dim);margin-left:7px;font-style:italic}
 .linkitem .desc{font-size:13.5px;color:var(--ink-dim);line-height:1.5}
 .flagbox{font-family:"Manrope",sans-serif;font-size:13px;background:var(--bg-alt);border:1px dashed var(--ink-dim);border-radius:10px;padding:12px 14px;color:var(--ink-dim);margin-bottom:18px;line-height:1.6}
+.warnbox{font-family:"Manrope",sans-serif;background:var(--tag-hand-bg);border:1px solid var(--tag-hand);border-radius:12px;padding:16px 18px;margin-top:24px}
+.warnbox h3{margin:0 0 10px;font-size:14.5px;color:var(--tag-hand)}
+.warnbox ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px;font-size:14px;line-height:1.5;color:var(--ink);font-family:"Lora",Georgia,serif}
 .empty{font-family:"Manrope",sans-serif;color:var(--fg-dim);font-size:14px;padding:30px 0;text-align:center}
 mark.mark-link{cursor:pointer;position:relative}
 mark.mark-link:hover{text-decoration:underline}
@@ -239,10 +242,11 @@ mark.mark-link[data-tip]:hover::after,mark.mark-link[data-tip]:focus-visible::af
 .wb-upload-btn{background:var(--accent)!important;color:var(--accent-fg)!important;border-color:var(--accent)!important;margin-left:auto}
 .wb-error{background:var(--tag-hand-bg);color:var(--tag-hand);font-family:"Manrope",sans-serif;font-size:13px;font-weight:600;padding:10px 14px;border-radius:10px;margin-bottom:14px}
 .wb-success{background:var(--tag-free-bg);color:var(--tag-free);font-family:"Manrope",sans-serif;font-size:13px;font-weight:600;padding:10px 14px;border-radius:10px;margin-bottom:14px}
-.whiteboard-dropzone{border:1px solid rgba(0,0,0,.08);border-radius:10px;padding:16px;background-color:#ffffff;background-image:repeating-linear-gradient(0deg,rgba(60,110,170,.16) 0 1px,transparent 1px 26px),repeating-linear-gradient(90deg,rgba(60,110,170,.16) 0 1px,transparent 1px 26px);box-shadow:0 6px 18px rgba(0,0,0,.25);transition:border-color .15s ease,background-color .15s ease}
+.whiteboard-dropzone{border:1px solid rgba(0,0,0,.08);border-radius:10px;padding:16px;background-color:#ffffff;background-image:repeating-linear-gradient(0deg,rgba(60,110,170,.16) 0 1px,transparent 1px 26px),repeating-linear-gradient(90deg,rgba(60,110,170,.16) 0 1px,transparent 1px 26px);box-shadow:0 6px 18px rgba(0,0,0,.25);transition:border-color .15s ease,background-color .15s ease;cursor:copy}
 .whiteboard-dropzone.dragover{border-color:var(--accent);background-color:#fbfdff}
-.whiteboard-board{display:flex;flex-wrap:wrap;gap:18px;min-height:80px}
-.wb-empty{font-family:"Manrope",sans-serif;color:var(--ink-dim);font-size:13.5px;padding:24px 10px;text-align:center;width:100%}
+.whiteboard-board{display:flex;flex-wrap:wrap;align-content:flex-start;gap:18px;min-height:420px;cursor:copy}
+.whiteboard-board>*{cursor:auto}
+.wb-empty{font-family:"Manrope",sans-serif;color:var(--ink-dim);font-size:13.5px;padding:24px 10px;text-align:center;width:100%;height:100%;min-height:372px;display:flex;align-items:center;justify-content:center;cursor:copy}
 
 .postit{width:200px;min-height:170px;border-radius:3px;padding:14px 14px 10px;display:flex;flex-direction:column;gap:8px;box-shadow:2px 5px 12px rgba(0,0,0,.2);position:relative;font-family:"Manrope",sans-serif;transform:rotate(-1.3deg)}
 .postit:nth-child(even){transform:rotate(1.1deg)}

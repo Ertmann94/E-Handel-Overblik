@@ -121,8 +121,8 @@ const THEMES = [
     dark:{bg:'#241331', fg:'#f3e7f0', fgDim:'#b79bc4'}, light:{bg:'#faf1f6', fg:'#2e1526', fgDim:'#8f6a82'}},
   {key:'espresso', label:'Espresso Terracotta', accent:'#d66a4c', accentRgb:'214,106,76',
     dark:{bg:'#231913', fg:'#f2e8dd', fgDim:'#b89d85'}, light:{bg:'#fbf2ea', fg:'#2c1c10', fgDim:'#8e715a'}},
-  {key:'denim', label:'Dania Rød', accent:'#cb142a', accentRgb:'203,20,42',
-    dark:{bg:'#152233', fg:'#eef2f7', fgDim:'#8fa5c2'}, light:{bg:'#eef3fa', fg:'#15233a', fgDim:'#64799c'}},
+  {key:'denim', label:'Dania Bordeaux', accent:'#cb142a', accentRgb:'203,20,42',
+    dark:{bg:'#241216', fg:'#f6e9ea', fgDim:'#c6959a'}, light:{bg:'#fcf0ee', fg:'#2b1316', fgDim:'#9c6b70'}},
 ];
 let currentThemeKey = 'midnight';
 let currentMode = 'dark';
@@ -219,8 +219,8 @@ function renderSiteHead(){
         <div class="sitehead-progress-text"><strong>${pct}%</strong>af semestret gået</div>
       </div>
       <div class="sitehead-deadlines">
-        <button class="deadlinepill" onclick="goHeaderDeadline('opgaver',2)"><span>🌐 Hjemmeside klar</span><span class="ddate">før 13/11</span></button>
-        <button class="deadlinepill" onclick="goHeaderDeadline('opgaver',5)"><span>📝 Skriftlig rapport</span><span class="ddate">13/11 kl. 12</span></button>
+        <button class="deadlinepill" onclick="openWebProject()"><span>🌐 Hjemmeside klar</span><span class="ddate">før 13/11</span></button>
+        <button class="deadlinepill" onclick="openReportRequirements()"><span>📝 Skriftlig rapport</span><span class="ddate">13/11 kl. 12</span></button>
         <button class="deadlinepill" onclick="goHeaderDeadline('opgaver',6)"><span>🤓 Mundtlig eksamen</span><span class="ddate">30/11–11/12</span></button>
       </div>
     </div>
