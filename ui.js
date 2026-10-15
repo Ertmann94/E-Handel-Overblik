@@ -109,51 +109,32 @@ function initSearchUI(){
   });
 }
 
-// ---------- farvetemaer (baggrund, tekst, highlight — kort/creme-elementer forbliver uændrede) ----------
-// Hver tema har et mørkt og et lyst sæt af bg/fg/fg-dim; accenten er den samme i begge, da
-// den altid bruges enten oven på creme-kort (uændret) eller som gennemsigtig glød/kant i headeren.
+// ---------- farvetemaer: kun to, hver med sin egen faste lys/mørk-tilstand ----------
+// Orange er altid lys, Grøn er altid mørk — der er derfor ingen separat lys/mørk-knap;
+// temavalget afgør tilstanden.
 const THEMES = [
-  {key:'midnight', label:'Midnight Gold', accent:'#c9a227', accentRgb:'201,162,39',
-    dark:{bg:'#0c1930', fg:'#f3ead8', fgDim:'#aab6d4'}, light:{bg:'#faf6ec', fg:'#20170a', fgDim:'#8a7a52'}},
-  {key:'charcoal', label:'Charcoal Teal', accent:'#2fb8a6', accentRgb:'47,184,166',
-    dark:{bg:'#141a1f', fg:'#e7eef0', fgDim:'#8fa3a8'}, light:{bg:'#eef7f5', fg:'#0f2623', fgDim:'#5f8c84'}},
-  {key:'plum', label:'Plum Rose Gold', accent:'#d98bae', accentRgb:'217,139,174',
-    dark:{bg:'#241331', fg:'#f3e7f0', fgDim:'#b79bc4'}, light:{bg:'#faf1f6', fg:'#2e1526', fgDim:'#8f6a82'}},
-  {key:'espresso', label:'Espresso Terracotta', accent:'#d66a4c', accentRgb:'214,106,76',
-    dark:{bg:'#231913', fg:'#f2e8dd', fgDim:'#b89d85'}, light:{bg:'#fbf2ea', fg:'#2c1c10', fgDim:'#8e715a'}},
-  {key:'denim', label:'Dania Bordeaux', accent:'#c84159', accentRgb:'200,65,89',
-    dark:{bg:'#241216', fg:'#f6e9ea', fgDim:'#c6959a'}, light:{bg:'#fcf0ee', fg:'#2b1316', fgDim:'#9c6b70'}},
+  {key:'espresso', label:'Orange (lys)', icon:'☀️', accent:'#d66a4c', accentRgb:'214,106,76',
+    bg:'#fbf2ea', fg:'#2c1c10', fgDim:'#8e715a'},
+  {key:'charcoal', label:'Grøn (mørk)', icon:'🌙', accent:'#2fb8a6', accentRgb:'47,184,166',
+    bg:'#141a1f', fg:'#e7eef0', fgDim:'#8fa3a8'},
 ];
-let currentThemeKey = 'midnight';
-let currentMode = 'dark';
+let currentThemeKey = 'charcoal';
 function applyTheme(key){
-  currentThemeKey = key;
   const t = THEMES.find(x=>x.key===key) || THEMES[0];
-  const tone = currentMode==='light' ? t.light : t.dark;
+  currentThemeKey = t.key;
   const r = document.documentElement.style;
-  r.setProperty('--bg', tone.bg);
-  r.setProperty('--fg', tone.fg);
-  r.setProperty('--fg-dim', tone.fgDim);
+  r.setProperty('--bg', t.bg);
+  r.setProperty('--fg', t.fg);
+  r.setProperty('--fg-dim', t.fgDim);
   r.setProperty('--accent', t.accent);
   r.setProperty('--accent-rgb', t.accentRgb);
   try{ localStorage.setItem('theme', key); }catch(e){}
-  document.querySelectorAll('.theme-swatch').forEach(b=>b.classList.toggle('active', b.dataset.theme===key));
+  document.querySelectorAll('.theme-swatch').forEach(b=>b.classList.toggle('active', b.dataset.theme===t.key));
 }
-function setMode(mode){
-  currentMode = mode;
-  try{ localStorage.setItem('mode', mode); }catch(e){}
-  applyTheme(currentThemeKey);
-  const btn = document.getElementById('modetoggle');
-  if(btn) btn.textContent = mode==='light' ? '☀️' : '🌙';
-}
-function toggleMode(){ setMode(currentMode==='light' ? 'dark' : 'light'); }
 function initTheme(){
-  let savedTheme='midnight', savedMode='dark';
-  try{ savedTheme = localStorage.getItem('theme') || 'midnight'; savedMode = localStorage.getItem('mode') || 'dark'; }catch(e){}
-  currentMode = savedMode;
+  let savedTheme='charcoal';
+  try{ savedTheme = localStorage.getItem('theme') || 'charcoal'; }catch(e){}
   applyTheme(savedTheme);
-  const btn = document.getElementById('modetoggle');
-  if(btn) btn.textContent = savedMode==='light' ? '☀️' : '🌙';
 }
 
 // ---------- header: vigtige datoer + genveje til eksamenskravene ----------
@@ -194,7 +175,7 @@ function semesterPct(){
 function renderSiteHead(){
   const next = getNextSession();
   const nextTxt = next ? `${fmtDM(next.date)} — ${esc(next.topic)}` : 'Ingen flere undervisningsgange';
-  const swatches = THEMES.map(t=>`<button class="theme-swatch" data-theme="${t.key}" title="${esc(t.label)}" style="--sw-bg:${t.dark.bg};--sw-accent:${t.accent}" onclick="applyTheme('${t.key}')"></button>`).join('');
+  const swatches = THEMES.map(t=>`<button class="theme-swatch" data-theme="${t.key}" title="${esc(t.label)}" style="--sw-bg:${t.bg};--sw-fg:${t.fg};--sw-accent:${t.accent}" onclick="applyTheme('${t.key}')">${t.icon}</button>`).join('');
   const pct = semesterPct();
   const ring = progressRing(pct, 100, {size:96, stroke:9, color:'--accent'});
   return `
@@ -204,7 +185,6 @@ function renderSiteHead(){
         <h1 class="sitehead-title">E-handel 1. semester – 2026</h1>
       </div>
       <div class="sitehead-controls">
-        <button id="modetoggle" class="modetoggle" title="Skift mellem lys og mørk tilstand" onclick="toggleMode()">🌙</button>
         <div class="sitehead-themes">${swatches}</div>
       </div>
     </div>
