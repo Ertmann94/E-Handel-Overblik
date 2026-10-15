@@ -121,7 +121,7 @@ const THEMES = [
     dark:{bg:'#241331', fg:'#f3e7f0', fgDim:'#b79bc4'}, light:{bg:'#faf1f6', fg:'#2e1526', fgDim:'#8f6a82'}},
   {key:'espresso', label:'Espresso Terracotta', accent:'#d66a4c', accentRgb:'214,106,76',
     dark:{bg:'#231913', fg:'#f2e8dd', fgDim:'#b89d85'}, light:{bg:'#fbf2ea', fg:'#2c1c10', fgDim:'#8e715a'}},
-  {key:'denim', label:'Dania Bordeaux', accent:'#cb142a', accentRgb:'203,20,42',
+  {key:'denim', label:'Dania Bordeaux', accent:'#c84159', accentRgb:'200,65,89',
     dark:{bg:'#241216', fg:'#f6e9ea', fgDim:'#c6959a'}, light:{bg:'#fcf0ee', fg:'#2b1316', fgDim:'#9c6b70'}},
 ];
 let currentThemeKey = 'midnight';
